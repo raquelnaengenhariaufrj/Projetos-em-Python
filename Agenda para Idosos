@@ -1,0 +1,262 @@
+"""
+Universidade Federal do Rio de Janeiro
+Disciplina: Computação I
+Trabalho Prático – Sistema em Python
+
+Descrição:
+Sistema de agenda em modo texto que permite organizar usuários,
+aniversários, medicamentos, tarefas e notas, utilizando funções,
+estruturas de dados e bibliotecas padrão do Python.
+"""
+
+# ============================================================
+# IMPORTAÇÕES
+# ============================================================
+
+from datetime import datetime
+import random
+
+# ============================================================
+# FUNÇÕES AUXILIARES
+# ============================================================
+
+def linha():
+    """Imprime uma linha separadora."""
+    print("-" * 50)
+
+
+def ler_opcao(mensagem, opcoes_validas):
+    """
+    Lê a opção do usuário e valida a entrada.
+    """
+    opcao = input(mensagem).strip()
+    while opcao not in opcoes_validas:
+        print("Opção inválida. Tente novamente.")
+        opcao = input(mensagem).strip()
+    return opcao
+
+
+# ============================================================
+# APRESENTAÇÃO DO SISTEMA
+# ============================================================
+
+def apresentacao_turinho():
+    """
+    Apresenta o assistente virtual Turinho e exibe data e hora atuais.
+    """
+    linha()
+    agora = datetime.now()
+    print("🌟 Olá! Eu sou o Turinho 🌟")
+    print(f"📅 Acesso realizado em: {agora.strftime('%d/%m/%Y às %H:%M:%S')}")
+    print("Pronto para te ajudar a se organizar!")
+    linha()
+    input("Pressione ENTER para continuar")
+
+
+# ============================================================
+# SUBMENU DE USUÁRIOS
+# ============================================================
+
+def submenu_usuarios(dados):
+    while True:
+        linha()
+        print("MENU DE USUÁRIOS")
+        print("1 - Cadastrar usuário")
+        print("2 - Listar usuários")
+        print("0 - Voltar")
+        escolha = ler_opcao("Escolha: ", ["1", "2", "0"])
+
+        if escolha == "1":
+            nome = input("Nome: ")
+            email = input("Email: ")
+            dados["usuarios"].append({
+                "nome": nome,
+                "email": email,
+                "criado_em": datetime.now().strftime("%d/%m/%Y %H:%M")
+            })
+            print("Usuário cadastrado com sucesso!")
+
+        elif escolha == "2":
+            print("Usuários cadastrados:")
+            for u in dados["usuarios"]:
+                print(f"- {u['nome']} ({u['email']}) | criado em {u['criado_em']}")
+
+        else:
+            break
+
+
+# ============================================================
+# SUBMENU DE ANIVERSÁRIOS
+# ============================================================
+
+def submenu_aniversarios(dados):
+    while True:
+        linha()
+        print("MENU DE ANIVERSÁRIOS")
+        print("1 - Cadastrar aniversário")
+        print("2 - Listar aniversários")
+        print("0 - Voltar")
+        escolha = ler_opcao("Escolha: ", ["1", "2", "0"])
+
+        if escolha == "1":
+            nome = input("Nome: ")
+            data = input("Data (dd/mm): ")
+            dados["aniversarios"].append((nome, data))
+            print("Aniversário registrado!")
+
+        elif escolha == "2":
+            print("Aniversários cadastrados:")
+            for n, d in dados["aniversarios"]:
+                print(f"- {n}: {d}")
+
+        else:
+            break
+
+
+# ============================================================
+# SUBMENU DE MEDICAMENTOS
+# ============================================================
+
+def submenu_medicamentos(dados):
+    while True:
+        linha()
+        print("MENU DE MEDICAMENTOS")
+        print("1 - Cadastrar medicamento")
+        print("2 - Listar medicamentos")
+        print("0 - Voltar")
+        escolha = ler_opcao("Escolha: ", ["1", "2", "0"])
+
+        if escolha == "1":
+            nome = input("Nome do medicamento: ")
+            horario = input("Horário: ")
+            dados["medicamentos"].append({
+                "nome": nome,
+                "horario": horario,
+                "registro": datetime.now().strftime("%d/%m/%Y %H:%M")
+            })
+            print("Medicamento cadastrado!")
+
+        elif escolha == "2":
+            print("Medicamentos cadastrados:")
+            for m in dados["medicamentos"]:
+                print(f"- {m['nome']} às {m['horario']} (registrado em {m['registro']})")
+
+        else:
+            break
+
+
+# ============================================================
+# SUBMENU DE TAREFAS
+# ============================================================
+
+def submenu_tarefas(dados):
+    while True:
+        linha()
+        print("MENU DE TAREFAS")
+        print("1 - Adicionar tarefa")
+        print("2 - Ver tarefas")
+        print("0 - Voltar")
+        escolha = ler_opcao("Escolha: ", ["1", "2", "0"])
+
+        if escolha == "1":
+            tarefa = input("Digite a tarefa: ")
+            dados["tarefas"].append({
+                "descricao": tarefa,
+                "criada_em": datetime.now().strftime("%d/%m/%Y %H:%M")
+            })
+            print("Tarefa adicionada!")
+
+        elif escolha == "2":
+            print("Tarefas cadastradas:")
+            for t in dados["tarefas"]:
+                print(f"- {t['descricao']} | criada em {t['criada_em']}")
+
+        else:
+            break
+
+
+# ============================================================
+# SUBMENU DE NOTAS
+# ============================================================
+
+def submenu_notas(dados):
+    while True:
+        linha()
+        print("MENU DE NOTAS")
+        print("1 - Criar nota")
+        print("2 - Ver notas")
+        print("0 - Voltar")
+        escolha = ler_opcao("Escolha: ", ["1", "2", "0"])
+
+        if escolha == "1":
+            texto = input("Digite sua nota: ")
+            dados["notas"].append({
+                "texto": texto,
+                "data": datetime.now().strftime("%d/%m/%Y %H:%M")
+            })
+            print("Nota salva com sucesso!")
+
+        elif escolha == "2":
+            print("Notas salvas:")
+            for n in dados["notas"]:
+                print(f"- {n['texto']} ({n['data']})")
+
+        else:
+            break
+
+
+# ============================================================
+# MENU PRINCIPAL
+# ============================================================
+
+def menu_principal(dados):
+    frases = [
+        "Você está indo muito bem! 🌟",
+        "Organizar é um ato de cuidado 💜",
+        "Mais um passo rumo à organização!"
+    ]
+
+    while True:
+        print("\n######## TURINGAGEND ########")
+        print("1 - Usuários")
+        print("2 - Aniversários")
+        print("3 - Medicamentos")
+        print("4 - Tarefas")
+        print("5 - Notas")
+        print("0 - Sair")
+
+        escolha = ler_opcao("Escolha: ", ["1", "2", "3", "4", "5", "0"])
+
+        if escolha == "1":
+            submenu_usuarios(dados)
+        elif escolha == "2":
+            submenu_aniversarios(dados)
+        elif escolha == "3":
+            submenu_medicamentos(dados)
+        elif escolha == "4":
+            submenu_tarefas(dados)
+        elif escolha == "5":
+            submenu_notas(dados)
+        else:
+            linha()
+            print(random.choice(frases))
+            print("Sistema encerrado. Até a próxima!")
+            break
+
+
+# ============================================================
+# PROGRAMA PRINCIPAL
+# ============================================================
+
+if __name__ == "__main__":
+
+    dados = {
+        "usuarios": [],
+        "aniversarios": [],
+        "medicamentos": [],
+        "tarefas": [],
+        "notas": []
+    }
+
+    apresentacao_turinho()
+    menu_principal(dados)
