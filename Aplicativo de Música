@@ -1,0 +1,36 @@
+# Rascunho para futuras adaptações
+
+import playsound3
+import time
+
+print("-" * 20)
+print("RaquelMusic - Aqui seu som vai longe!")
+print("-" * 20)
+
+time.sleep(2)
+
+print("Escolha uma das músicas disponíveis na nossa playlist")
+print("1- Comanda")
+print("2- Swing")
+print("3- Montagem Xonada")
+print("4- Montagem Chamando")
+print("5- Vai Trair")
+
+m = int(input("Qual dessas você escolheu? "))
+
+if m == 1:
+    playsound3.playsound(r"C:\Users\raque\Music\comanda.mp3")
+elif m == 2:
+    playsound3.playsound(r"C:\Users\raque\Music\swing.mp3")
+elif m == 3:
+    playsound3.playsound(r"C:\Users\raque\Music\MONTAGEM XONADA.mp3")
+elif m == 4:
+    playsound3.playsound(r"C:\Users\raque\Music\teste.mp3")
+
+elif m == 5:
+    playsound3.playsound(r"C:\Users\raque\Music\VAI VAI TRAIR (Extended) - DJ Asul.mp3.mp3")
+
+
+else:
+    print("Retorne mais tarde!")
+
